@@ -3,387 +3,890 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>KhetAI - Precision Agriculture</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#08130c;color:white;min-height:100vh;}
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
+/* Sidebar */
+.sidebar{position:fixed;left:0;top:0;width:240px;height:100vh;background:#0d1d12;border-right:1px solid #1f3b2c;padding:20px;z-index:100;overflow-y:auto;}
+.logo{font-size:28px;font-weight:700;color:#22c55e;display:flex;align-items:center;gap:8px;}
+.logo-sub{font-size:11px;color:#8fb39a;margin-bottom:24px;letter-spacing:2px;}
+.nav-section{font-size:10px;color:#4a7a5a;letter-spacing:1.5px;margin:16px 0 6px;padding:0 12px;}
+.nav-item{padding:11px 14px;margin-bottom:4px;border-radius:10px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:10px;font-size:14px;color:#b8d4be;}
+.nav-item:hover{background:#173521;color:#22c55e;}
+.nav-item.active{background:#173521;color:#22c55e;font-weight:600;}
+.nav-item .icon{font-size:18px;width:20px;text-align:center;}
+.sidebar-footer{position:absolute;bottom:20px;left:20px;right:20px;font-size:11px;color:#4a7a5a;text-align:center;}
 
-body{
-background:#08130c;
-color:white;
-}
+/* Main */
+.main{margin-left:240px;padding:28px;min-height:100vh;}
+.page{display:none;}
+.page.active{display:block;}
 
-.sidebar{
-position:fixed;
-left:0;
-top:0;
-width:240px;
-height:100vh;
-background:#0d1d12;
-border-right:1px solid #1f3b2c;
-padding:20px;
-}
+/* Header */
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;}
+.header h2{font-size:20px;font-weight:600;color:#e8f5ec;}
+.header-right{display:flex;align-items:center;gap:16px;}
+.clock{font-size:14px;color:#8fb39a;background:#0f1c12;padding:8px 16px;border-radius:10px;border:1px solid #1d3524;}
+.lang-btn{padding:7px 14px;background:transparent;border:1px solid #2d5a3d;color:#7ab88a;border-radius:8px;cursor:pointer;font-size:13px;font-family:'Poppins',sans-serif;transition:.2s;}
+.lang-btn.active{background:#22c55e;color:#000;border-color:#22c55e;font-weight:600;}
 
-.logo{
-font-size:32px;
-font-weight:700;
-color:#22c55e;
-}
+/* Hero */
+.hero{background:linear-gradient(135deg,#0f3f23,#14532d);padding:32px 40px;border-radius:20px;margin-bottom:24px;position:relative;overflow:hidden;}
+.hero::after{content:'🌾';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:80px;opacity:.15;}
+.hero h1{font-size:32px;font-weight:700;margin-bottom:8px;}
+.hero p{color:#d8eadb;font-size:15px;}
+.hero-stats{display:flex;gap:24px;margin-top:20px;}
+.hero-stat{background:rgba(0,0,0,.25);padding:12px 20px;border-radius:12px;}
+.hero-stat .val{font-size:22px;font-weight:700;color:#22c55e;}
+.hero-stat .lbl{font-size:11px;color:#9dc8a8;}
 
-.tag{
-font-size:12px;
-color:#8fb39a;
-margin-bottom:30px;
-}
+/* Cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px;}
+.card{background:#0f1c12;padding:22px;border-radius:16px;border:1px solid #1d3524;transition:.2s;}
+.card:hover{border-color:#2d5a3d;}
+.card-icon{font-size:28px;margin-bottom:10px;}
+.card h3{font-size:12px;color:#6a9e78;margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px;}
+.card h2{color:#22c55e;font-size:24px;font-weight:700;}
+.card .sub{font-size:11px;color:#4a7a5a;margin-top:4px;}
+.card.alert{border-color:#854f0b;}
+.card.alert h2{color:#ef9f27;}
+.card.danger{border-color:#a32d2d;}
+.card.danger h2{color:#e24b4a;}
 
-.nav-item{
-padding:12px;
-margin-bottom:8px;
-border-radius:10px;
-cursor:pointer;
-transition:.3s;
-}
+/* Section */
+.section{background:#0f1c12;padding:24px;border-radius:16px;border:1px solid #1d3524;margin-bottom:22px;}
+.section-title{font-size:16px;font-weight:600;margin-bottom:18px;display:flex;align-items:center;gap:8px;color:#e8f5ec;}
+.section-title span{font-size:20px;}
 
-.nav-item:hover{
-background:#173521;
-}
+/* Crops */
+.crop-item{padding:14px 0;border-bottom:1px solid #1a2f20;display:flex;align-items:center;gap:16px;}
+.crop-item:last-child{border-bottom:none;padding-bottom:0;}
+.crop-icon{font-size:28px;width:40px;text-align:center;}
+.crop-info{flex:1;}
+.crop-name{font-size:15px;font-weight:500;color:#d8f0e0;}
+.crop-meta{font-size:12px;color:#5a8a6a;margin-top:2px;}
+.crop-health{text-align:right;min-width:60px;}
+.crop-pct{font-size:18px;font-weight:700;}
+.progress{height:6px;background:#1b2c20;border-radius:6px;margin-top:8px;overflow:hidden;}
+.progress span{display:block;height:100%;border-radius:6px;transition:width .5s;}
+.progress .good{background:#22c55e;}
+.progress .ok{background:#ef9f27;}
+.progress .bad{background:#e24b4a;}
+.crop-actions{display:flex;gap:8px;margin-top:10px;}
+.btn-sm{padding:5px 12px;border-radius:6px;border:1px solid #2d5a3d;background:transparent;color:#7ab88a;cursor:pointer;font-size:12px;font-family:'Poppins',sans-serif;transition:.2s;}
+.btn-sm:hover{background:#173521;color:#22c55e;}
+.btn-sm.primary{background:#22c55e;color:#000;border-color:#22c55e;font-weight:600;}
+.btn-sm.primary:hover{background:#16a34a;}
 
-.main{
-margin-left:240px;
-padding:30px;
-}
+/* Weather */
+.weather-current{display:flex;align-items:center;gap:24px;margin-bottom:20px;padding:20px;background:#0a1a0f;border-radius:14px;}
+.weather-temp{font-size:52px;font-weight:700;color:#22c55e;}
+.weather-details{flex:1;}
+.weather-city{font-size:16px;font-weight:600;color:#d8f0e0;}
+.weather-desc{font-size:13px;color:#6a9e78;margin-top:2px;}
+.weather-extra{display:flex;gap:16px;margin-top:12px;}
+.weather-extra div{font-size:12px;color:#5a8a6a;}
+.weather-extra b{color:#9dc8a8;}
+.weather-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;}
+.weather-day{background:#132318;padding:14px 8px;text-align:center;border-radius:12px;border:1px solid #1a2f20;}
+.weather-day .day-name{font-size:11px;color:#5a8a6a;margin-bottom:6px;}
+.weather-day .day-icon{font-size:22px;margin-bottom:6px;}
+.weather-day .day-temp{font-size:14px;font-weight:600;color:#22c55e;}
+.weather-day .day-rain{font-size:10px;color:#5a8a6a;margin-top:4px;}
+.weather-advice{background:#0a1a0f;border:1px solid #1a3020;border-radius:12px;padding:16px;margin-top:16px;}
+.weather-advice h4{font-size:13px;font-weight:600;color:#22c55e;margin-bottom:8px;}
+.weather-advice p{font-size:13px;color:#8fb39a;line-height:1.6;}
 
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:30px;
-}
+/* Chat */
+.chat-box{height:340px;overflow-y:auto;padding:16px;background:#08130c;border-radius:12px;margin-bottom:12px;border:1px solid #1a2f20;scroll-behavior:smooth;}
+.msg{display:flex;gap:10px;margin-bottom:14px;}
+.msg.user{flex-direction:row-reverse;}
+.msg-bubble{padding:12px 16px;border-radius:14px;max-width:75%;font-size:14px;line-height:1.6;}
+.msg.bot .msg-bubble{background:#173521;border-radius:4px 14px 14px 14px;color:#d8f0e0;}
+.msg.user .msg-bubble{background:#22c55e;color:#000;border-radius:14px 4px 14px 14px;font-weight:500;}
+.msg-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;background:#132318;}
+.msg-time{font-size:10px;color:#3a5a44;margin-top:4px;text-align:right;}
+.chat-typing{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#173521;border-radius:4px 14px 14px 14px;display:none;width:fit-content;}
+.typing-dots span{display:inline-block;width:6px;height:6px;background:#22c55e;border-radius:50%;animation:bounce .8s infinite;}
+.typing-dots span:nth-child(2){animation-delay:.15s;}
+.typing-dots span:nth-child(3){animation-delay:.3s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
+.chat-input-row{display:flex;gap:10px;}
+.chat-input-row input{flex:1;padding:12px 16px;border:1px solid #1d3524;background:#0f1c12;color:white;border-radius:10px;font-size:14px;font-family:'Poppins',sans-serif;outline:none;transition:.2s;}
+.chat-input-row input:focus{border-color:#22c55e;}
+.chat-input-row input::placeholder{color:#3a5a44;}
+.send-btn{padding:12px 22px;border:none;background:#22c55e;border-radius:10px;cursor:pointer;font-weight:600;font-size:14px;font-family:'Poppins',sans-serif;transition:.2s;color:#000;}
+.send-btn:hover{background:#16a34a;}
+.send-btn:disabled{opacity:.5;cursor:not-allowed;}
+.quick-asks{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.quick-ask{padding:6px 12px;background:transparent;border:1px solid #2d5a3d;color:#7ab88a;border-radius:20px;cursor:pointer;font-size:12px;font-family:'Poppins',sans-serif;transition:.2s;}
+.quick-ask:hover{background:#173521;color:#22c55e;}
 
-.hero{
-background:linear-gradient(135deg,#0f3f23,#14532d);
-padding:40px;
-border-radius:20px;
-margin-bottom:25px;
-}
+/* Analytics */
+.analytics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:20px;}
+.chart-bar-wrap{margin-top:16px;}
+.chart-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.chart-bar-label{font-size:13px;color:#8fb39a;width:60px;flex-shrink:0;}
+.chart-bar-bg{flex:1;background:#1b2c20;border-radius:6px;height:10px;overflow:hidden;}
+.chart-bar-fill{height:100%;border-radius:6px;background:#22c55e;transition:width .6s;}
+.chart-bar-val{font-size:13px;color:#22c55e;font-weight:600;width:80px;text-align:right;}
+table{width:100%;border-collapse:collapse;margin-top:12px;}
+table th{padding:11px 14px;font-size:12px;color:#5a8a6a;text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid #1d3524;text-align:left;}
+table td{padding:12px 14px;border-bottom:1px solid #162a1c;font-size:14px;color:#c8e8d0;}
+table tr:last-child td{border-bottom:none;}
+table tr:hover td{background:#101f14;}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.badge.good{background:#173521;color:#22c55e;}
+.badge.ok{background:#2a1f0a;color:#ef9f27;}
+.badge.bad{background:#1f0a0a;color:#e24b4a;}
+.total-row td{font-weight:700;color:#22c55e;border-top:2px solid #1d3524;}
 
-.hero h1{
-font-size:40px;
-margin-bottom:10px;
-}
+/* Crop Doctor */
+.upload-zone{border:2px dashed #2d5a3d;border-radius:16px;padding:48px;text-align:center;cursor:pointer;transition:.2s;background:#0a1a0f;}
+.upload-zone:hover{border-color:#22c55e;background:#0f2016;}
+.upload-zone .icon{font-size:48px;margin-bottom:12px;}
+.upload-zone h3{font-size:16px;color:#9dc8a8;margin-bottom:6px;}
+.upload-zone p{font-size:13px;color:#4a7a5a;}
+#fileInput{display:none;}
+.diagnosis-result{background:#0a1a0f;border:1px solid #1a3020;border-radius:14px;padding:20px;margin-top:16px;display:none;}
+.diagnosis-result.visible{display:block;}
+.diagnosis-loading{text-align:center;padding:30px;display:none;}
+.diagnosis-loading.visible{display:flex;flex-direction:column;align-items:center;gap:12px;}
+.spin{width:36px;height:36px;border:3px solid #1d3524;border-top-color:#22c55e;border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.diag-title{font-size:18px;font-weight:700;color:#22c55e;margin-bottom:12px;}
+.diag-section{margin-bottom:12px;}
+.diag-section h4{font-size:13px;color:#5a8a6a;text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;}
+.diag-section p,.diag-section ul{font-size:14px;color:#c8e8d0;line-height:1.7;}
+.diag-section ul{padding-left:20px;}
+.diag-section li{margin-bottom:4px;}
+.severity{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;margin-bottom:14px;}
+.severity.high{background:#1f0a0a;color:#e24b4a;border:1px solid #a32d2d;}
+.severity.medium{background:#2a1f0a;color:#ef9f27;border:1px solid #854f0b;}
+.severity.low{background:#0e2015;color:#22c55e;border:1px solid #1d5a2d;}
+.preview-img{max-width:100%;border-radius:12px;margin:12px 0;max-height:240px;object-fit:cover;display:none;}
+.preview-img.visible{display:block;}
 
-.hero p{
-color:#d8eadb;
-}
+/* My Farm */
+.farm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:20px;}
+.farm-card{background:#0a1a0f;border:1px solid #1a3020;border-radius:14px;padding:18px;}
+.farm-card h4{font-size:14px;font-weight:600;color:#e8f5ec;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.farm-field{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #132318;font-size:13px;}
+.farm-field:last-child{border-bottom:none;padding-bottom:0;}
+.farm-field .key{color:#5a8a6a;}
+.farm-field .val{color:#c8e8d0;font-weight:500;}
+.alert-box{background:#1a1000;border:1px solid #854f0b;border-radius:12px;padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start;}
+.alert-box.red{background:#120000;border-color:#a32d2d;}
+.alert-icon{font-size:20px;flex-shrink:0;}
+.alert-content h4{font-size:13px;font-weight:600;color:#ef9f27;margin-bottom:4px;}
+.alert-content.red h4{color:#e24b4a;}
+.alert-content p{font-size:12px;color:#8a6a3a;line-height:1.5;}
+.alert-content.red p{color:#8a4a4a;}
 
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-margin-bottom:30px;
-}
+/* Tasks */
+.task-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #132318;}
+.task-item:last-child{border-bottom:none;}
+.task-check{width:20px;height:20px;border-radius:5px;border:2px solid #2d5a3d;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.2s;}
+.task-check.done{background:#22c55e;border-color:#22c55e;}
+.task-check.done::after{content:'✓';font-size:12px;color:#000;font-weight:700;}
+.task-text{flex:1;font-size:14px;color:#c8e8d0;}
+.task-text.done{text-decoration:line-through;color:#4a7a5a;}
+.task-tag{font-size:11px;padding:3px 8px;border-radius:5px;background:#132318;color:#5a8a6a;}
+.task-date{font-size:11px;color:#4a7a5a;}
 
-.card{
-background:#0f1c12;
-padding:25px;
-border-radius:18px;
-border:1px solid #1d3524;
-}
+/* Alerts banner */
+.alert-banner{background:#1a1000;border:1px solid #854f0b;border-radius:12px;padding:14px 18px;margin-bottom:22px;display:flex;align-items:center;gap:12px;}
+.alert-banner .a-icon{font-size:20px;}
+.alert-banner .a-text{font-size:14px;color:#d4a060;}
+.alert-banner .a-text b{color:#ef9f27;}
 
-.card h3{
-font-size:14px;
-color:#9ab69f;
-margin-bottom:10px;
-}
-
-.card h2{
-color:#22c55e;
-}
-
-.section{
-background:#0f1c12;
-padding:25px;
-border-radius:18px;
-border:1px solid #1d3524;
-margin-bottom:25px;
-}
-
-.crop{
-padding:15px;
-border-bottom:1px solid #1f3525;
-}
-
-.progress{
-height:8px;
-background:#1b2c20;
-border-radius:10px;
-margin-top:10px;
-overflow:hidden;
-}
-
-.progress span{
-display:block;
-height:100%;
-background:#22c55e;
-}
-
-.weather-grid{
-display:grid;
-grid-template-columns:repeat(7,1fr);
-gap:10px;
-margin-top:20px;
-}
-
-.weather{
-background:#132318;
-padding:15px;
-text-align:center;
-border-radius:12px;
-}
-
-.chat-box{
-height:300px;
-overflow-y:auto;
-padding:15px;
-background:#08130c;
-border-radius:12px;
-margin-bottom:15px;
-}
-
-.bot{
-background:#173521;
-padding:10px;
-border-radius:10px;
-display:inline-block;
-}
-
-.chat-input{
-display:flex;
-gap:10px;
-}
-
-.chat-input input{
-flex:1;
-padding:12px;
-border:none;
-border-radius:10px;
-}
-
-.chat-input button{
-padding:12px 20px;
-border:none;
-background:#22c55e;
-border-radius:10px;
-cursor:pointer;
-font-weight:600;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:15px;
-}
-
-table th,
-table td{
-padding:12px;
-border-bottom:1px solid #1f3525;
-text-align:left;
-}
-
+/* Responsive */
 @media(max-width:900px){
-
-.sidebar{
-position:relative;
-width:100%;
-height:auto;
+  .sidebar{position:relative;width:100%;height:auto;}
+  .main{margin-left:0;}
+  .weather-grid{grid-template-columns:repeat(3,1fr);}
 }
-
-.main{
-margin-left:0;
-}
-
-.weather-grid{
-grid-template-columns:repeat(2,1fr);
-}
-
-}
-
 </style>
 </head>
 <body>
 
 <div class="sidebar">
-
-<div class="logo">🌾 KhetAI</div>
-<div class="tag">Precision Agriculture</div>
-
-<div class="nav-item">🏡 Dashboard</div>
-<div class="nav-item">🔬 Crop Doctor</div>
-<div class="nav-item">🤖 Khet Mitra</div>
-<div class="nav-item">🌾 My Farm</div>
-<div class="nav-item">🌤 Weather</div>
-<div class="nav-item">📊 Analytics</div>
-
+  <div class="logo">🌾 KhetAI</div>
+  <div class="logo-sub">PRECISION AGRICULTURE</div>
+  <div class="nav-section">MAIN</div>
+  <div class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">🏡</span> Dashboard</div>
+  <div class="nav-item" onclick="showPage('doctor',this)"><span class="icon">🔬</span> Crop Doctor</div>
+  <div class="nav-item" onclick="showPage('mitra',this)"><span class="icon">🤖</span> Khet Mitra</div>
+  <div class="nav-section">FARM</div>
+  <div class="nav-item" onclick="showPage('farm',this)"><span class="icon">🌾</span> My Farm</div>
+  <div class="nav-item" onclick="showPage('weather',this)"><span class="icon">🌤</span> Weather</div>
+  <div class="nav-item" onclick="showPage('analytics',this)"><span class="icon">📊</span> Analytics</div>
+  <div class="sidebar-footer">KhetAI v2.0 · Vidarbha, Maharashtra</div>
 </div>
 
 <div class="main">
 
-<div class="header">
-<h2>KhetAI Dashboard</h2>
-<div id="clock"></div>
-</div>
+  <!-- DASHBOARD PAGE -->
+  <div class="page active" id="page-dashboard">
+    <div class="header">
+      <h2>🏡 Dashboard</h2>
+      <div class="header-right">
+        <div class="clock" id="clock"></div>
+      </div>
+    </div>
 
-<div class="hero">
-<h1>Smart Farming for Maharashtra</h1>
-<p>
-AI-powered crop advisory, disease detection,
-weather forecasting and farm analytics.
-</p>
-</div>
+    <div class="alert-banner">
+      <span class="a-icon">⚠️</span>
+      <span class="a-text"><b>2 Active Alerts:</b> Cotton — Bollworm risk detected. Soybean — Low soil moisture.</span>
+    </div>
 
-<div class="cards">
+    <div class="hero">
+      <h1>Smart Farming for Maharashtra</h1>
+      <p>AI-powered crop advisory, disease detection, weather forecasting and farm analytics.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="val">8.5</div><div class="lbl">Total Acres</div></div>
+        <div class="hero-stat"><div class="val">3</div><div class="lbl">Active Crops</div></div>
+        <div class="hero-stat"><div class="val">₹3.7L</div><div class="lbl">Est. Revenue</div></div>
+        <div class="hero-stat"><div class="val">76%</div><div class="lbl">Avg. Health</div></div>
+      </div>
+    </div>
 
-<div class="card">
-<h3>Farm Area</h3>
-<h2>8.5 Acres</h2>
-</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🌱</div>
+        <h3>Farm Area</h3>
+        <h2>8.5 Acres</h2>
+        <div class="sub">Amravati, Vidarbha</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">💚</div>
+        <h3>Avg Crop Health</h3>
+        <h2>76%</h2>
+        <div class="sub">Soybean best at 85%</div>
+      </div>
+      <div class="card alert">
+        <div class="card-icon">⚠️</div>
+        <h3>Active Alerts</h3>
+        <h2>2 Active</h2>
+        <div class="sub">Bollworm + Moisture</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌡️</div>
+        <h3>Weather</h3>
+        <h2 id="dash-temp">28°C</h2>
+        <div class="sub" id="dash-weather">Loading...</div>
+      </div>
+    </div>
 
-<div class="card">
-<h3>Crop Health</h3>
-<h2>76%</h2>
-</div>
+    <div class="section">
+      <div class="section-title"><span>🌾</span> Active Crops</div>
+      <div class="crop-item">
+        <div class="crop-icon">🌿</div>
+        <div class="crop-info">
+          <div class="crop-name">Cotton (BT)</div>
+          <div class="crop-meta">Planted: 15 Jun · 3.2 Acres · Stage: Boll formation</div>
+          <div class="progress"><span class="progress good" style="width:72%"></span></div>
+          <div class="crop-actions">
+            <button class="btn-sm" onclick="askMitra('What fertilizer should I use for Cotton BT at boll formation stage?')">Ask Mitra 🤖</button>
+            <button class="btn-sm" onclick="showPage('doctor',document.querySelector('[onclick*=doctor]'))">Check Disease 🔬</button>
+          </div>
+        </div>
+        <div class="crop-health"><div class="crop-pct" style="color:#22c55e">72%</div></div>
+      </div>
+      <div class="crop-item">
+        <div class="crop-icon">🫘</div>
+        <div class="crop-info">
+          <div class="crop-name">Soybean</div>
+          <div class="crop-meta">Planted: 20 Jun · 3.0 Acres · Stage: Pod filling</div>
+          <div class="progress"><span class="progress good" style="width:85%"></span></div>
+          <div class="crop-actions">
+            <button class="btn-sm" onclick="askMitra('Soybean pod filling stage — what care is needed now?')">Ask Mitra 🤖</button>
+            <button class="btn-sm" onclick="showPage('doctor',document.querySelector('[onclick*=doctor]'))">Check Disease 🔬</button>
+          </div>
+        </div>
+        <div class="crop-health"><div class="crop-pct" style="color:#22c55e">85%</div></div>
+      </div>
+      <div class="crop-item">
+        <div class="crop-icon">🧅</div>
+        <div class="crop-info">
+          <div class="crop-name">Onion</div>
+          <div class="crop-meta">Planted: 1 Jul · 2.3 Acres · Stage: Bulb development</div>
+          <div class="progress"><span class="progress ok" style="width:68%"></span></div>
+          <div class="crop-actions">
+            <button class="btn-sm" onclick="askMitra('My Onion crop health is at 68%. What can I do to improve it?')">Ask Mitra 🤖</button>
+            <button class="btn-sm" onclick="showPage('doctor',document.querySelector('[onclick*=doctor]'))">Check Disease 🔬</button>
+          </div>
+        </div>
+        <div class="crop-health"><div class="crop-pct" style="color:#ef9f27">68%</div></div>
+      </div>
+    </div>
 
-<div class="card">
-<h3>Alerts</h3>
-<h2>2 Active</h2>
-</div>
+    <div class="section">
+      <div class="section-title"><span>📋</span> Today's Tasks</div>
+      <div id="taskList">
+        <div class="task-item">
+          <div class="task-check" onclick="toggleTask(this)"></div>
+          <div class="task-text">Apply neem oil spray on Cotton (bollworm prevention)</div>
+          <span class="task-tag">Cotton</span>
+          <span class="task-date">Today</span>
+        </div>
+        <div class="task-item">
+          <div class="task-check" onclick="toggleTask(this)"></div>
+          <div class="task-text">Check drip irrigation — Soybean soil moisture low</div>
+          <span class="task-tag">Soybean</span>
+          <span class="task-date">Today</span>
+        </div>
+        <div class="task-item">
+          <div class="task-check" onclick="toggleTask(this)"></div>
+          <div class="task-text">Apply potash fertilizer on Onion field</div>
+          <span class="task-tag">Onion</span>
+          <span class="task-date">Tomorrow</span>
+        </div>
+        <div class="task-item">
+          <div class="task-check" onclick="toggleTask(this)"></div>
+          <div class="task-text">Take soil sample from field 2 for pH testing</div>
+          <span class="task-tag">Soil</span>
+          <span class="task-date">Thu</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<div class="card">
-<h3>Weather</h3>
-<h2>28°C</h2>
-</div>
+  <!-- CROP DOCTOR PAGE -->
+  <div class="page" id="page-doctor">
+    <div class="header"><h2>🔬 Crop Doctor</h2></div>
+    <div class="section">
+      <div class="section-title"><span>📸</span> Upload Crop Photo for AI Diagnosis</div>
+      <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+        <div class="icon">📷</div>
+        <h3>Click to upload a photo of your crop</h3>
+        <p>Take a clear close-up of the affected leaves, stem, or fruit.<br>AI will diagnose the disease and suggest treatment.</p>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" onchange="diagnoseCrop(this)">
+      <img id="previewImg" class="preview-img" src="" alt="Uploaded crop photo">
+      <div class="diagnosis-loading" id="diagLoading">
+        <div class="spin"></div>
+        <div style="font-size:14px;color:#6a9e78">AI is analyzing your crop photo...</div>
+      </div>
+      <div class="diagnosis-result" id="diagResult"></div>
+    </div>
+    <div class="section">
+      <div class="section-title"><span>📚</span> Common Vidarbha Crop Diseases</div>
+      <div class="cards" style="margin-bottom:0">
+        <div class="card" onclick="showDisease('cotton-bollworm')">
+          <div class="card-icon">🐛</div><h3>Cotton</h3><h2 style="font-size:16px">Bollworm</h2>
+          <div class="sub" style="margin-top:8px;font-size:12px;color:#8a6a3a">Click to see treatment</div>
+        </div>
+        <div class="card" onclick="showDisease('soybean-rust')">
+          <div class="card-icon">🍂</div><h3>Soybean</h3><h2 style="font-size:16px">Rust Disease</h2>
+          <div class="sub" style="margin-top:8px;font-size:12px;color:#8a6a3a">Click to see treatment</div>
+        </div>
+        <div class="card" onclick="showDisease('onion-purple-blotch')">
+          <div class="card-icon">🟣</div><h3>Onion</h3><h2 style="font-size:16px">Purple Blotch</h2>
+          <div class="sub" style="margin-top:8px;font-size:12px;color:#8a6a3a">Click to see treatment</div>
+        </div>
+      </div>
+    </div>
+    <div class="diagnosis-result visible" id="diseaseInfo" style="display:none"></div>
+  </div>
 
-</div>
+  <!-- KHET MITRA PAGE -->
+  <div class="page" id="page-mitra">
+    <div class="header">
+      <h2>🤖 Khet Mitra — AI Farm Advisor</h2>
+      <div class="header-right">
+        <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btnHI" onclick="setLang('hi')">हिंदी</button>
+        <button class="lang-btn" id="btnMR" onclick="setLang('mr')">मराठी</button>
+      </div>
+    </div>
+    <div class="section">
+      <div class="quick-asks">
+        <button class="quick-ask" onclick="sendQuick('What is the best fertilizer for cotton in Vidarbha?')">🌿 Cotton fertilizer</button>
+        <button class="quick-ask" onclick="sendQuick('When should I irrigate soybean during pod filling stage?')">💧 Soybean irrigation</button>
+        <button class="quick-ask" onclick="sendQuick('How to prevent bollworm attack on BT cotton?')">🐛 Pest control</button>
+        <button class="quick-ask" onclick="sendQuick('What is the market price of onion in Amravati today?')">💰 Mandi prices</button>
+        <button class="quick-ask" onclick="sendQuick('Explain government subsidies available for Vidarbha farmers in 2024')">🏛️ Govt schemes</button>
+        <button class="quick-ask" onclick="sendQuick('मेरा सोयाबीन पीला हो रहा है — क्या करूँ?')">🌾 सोयाबीन (Hindi)</button>
+      </div>
+      <div class="chat-box" id="chatBox">
+        <div class="msg bot">
+          <div class="msg-avatar">🤖</div>
+          <div>
+            <div class="msg-bubble">
+              नमस्ते शेतकरी मित्रा! 👋<br><br>
+              मी KhetAI चा Khet Mitra आहे — तुमचा AI शेती सल्लागार.<br><br>
+              पिके, खते, कीड, हवामान, बाजारभाव किंवा सरकारी योजनांबद्दल काहीही विचारा.<br><br>
+              <i>You can ask in English, Hindi, or Marathi.</i>
+            </div>
+            <div class="msg-time">KhetAI · Ready</div>
+          </div>
+        </div>
+        <div id="typingIndicator" style="display:none">
+          <div class="msg bot">
+            <div class="msg-avatar">🤖</div>
+            <div>
+              <div class="chat-typing" style="display:flex">
+                <div class="typing-dots">
+                  <span></span><span></span><span></span>
+                </div>
+                <span style="font-size:13px;color:#6a9e78">Thinking...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Ask your farming question in English, Hindi, or Marathi..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="send-btn" id="sendBtn" onclick="sendMsg()">Send ➤</button>
+      </div>
+    </div>
+  </div>
 
-<div class="section">
-<h2>🌾 Active Crops</h2>
+  <!-- MY FARM PAGE -->
+  <div class="page" id="page-farm">
+    <div class="header"><h2>🌾 My Farm</h2></div>
+    <div class="farm-grid">
+      <div class="farm-card">
+        <h4>📍 Farm Details</h4>
+        <div class="farm-field"><span class="key">Owner</span><span class="val">Ramesh Patil</span></div>
+        <div class="farm-field"><span class="key">Village</span><span class="val">Dhamangaon</span></div>
+        <div class="farm-field"><span class="key">Taluka</span><span class="val">Amravati</span></div>
+        <div class="farm-field"><span class="key">District</span><span class="val">Amravati, Vidarbha</span></div>
+        <div class="farm-field"><span class="key">Total Area</span><span class="val">8.5 Acres</span></div>
+        <div class="farm-field"><span class="key">Soil Type</span><span class="val">Black Cotton Soil</span></div>
+      </div>
+      <div class="farm-card">
+        <h4>🌡️ Soil Health</h4>
+        <div class="farm-field"><span class="key">pH Level</span><span class="val" style="color:#22c55e">6.8 (Good)</span></div>
+        <div class="farm-field"><span class="key">Nitrogen</span><span class="val" style="color:#ef9f27">Low</span></div>
+        <div class="farm-field"><span class="key">Phosphorus</span><span class="val" style="color:#22c55e">Medium</span></div>
+        <div class="farm-field"><span class="key">Potassium</span><span class="val" style="color:#22c55e">High</span></div>
+        <div class="farm-field"><span class="key">Organic Matter</span><span class="val" style="color:#ef9f27">1.8% (Low)</span></div>
+        <div class="farm-field"><span class="key">Last Test</span><span class="val">12 May 2025</span></div>
+      </div>
+      <div class="farm-card">
+        <h4>💧 Water Resources</h4>
+        <div class="farm-field"><span class="key">Source</span><span class="val">Borwell + Canal</span></div>
+        <div class="farm-field"><span class="key">Irrigation</span><span class="val">Drip + Furrow</span></div>
+        <div class="farm-field"><span class="key">Coverage</span><span class="val">70% drip</span></div>
+        <div class="farm-field"><span class="key">Canal Water</span><span class="val" style="color:#22c55e">Available</span></div>
+        <div class="farm-field"><span class="key">Borwell Depth</span><span class="val">180 ft</span></div>
+        <div class="farm-field"><span class="key">Next Watering</span><span class="val" style="color:#ef9f27">Tomorrow</span></div>
+      </div>
+      <div class="farm-card">
+        <h4>🚜 Equipment</h4>
+        <div class="farm-field"><span class="key">Tractor</span><span class="val">Mahindra 575</span></div>
+        <div class="farm-field"><span class="key">Sprayer</span><span class="val">Power sprayer</span></div>
+        <div class="farm-field"><span class="key">Next Service</span><span class="val" style="color:#ef9f27">15 Aug</span></div>
+        <div class="farm-field"><span class="key">Fuel Stock</span><span class="val" style="color:#22c55e">40L</span></div>
+        <div class="farm-field"><span class="key">Storage</span><span class="val">Pucca shed 500 sq ft</span></div>
+        <div class="farm-field"><span class="key">Cold Store</span><span class="val" style="color:#e24b4a">None</span></div>
+      </div>
+    </div>
 
-<div class="crop">
-Cotton (BT)
-<div class="progress">
-<span style="width:72%"></span>
-</div>
-</div>
+    <div class="section">
+      <div class="section-title"><span>🚨</span> Active Alerts</div>
+      <div class="alert-box">
+        <div class="alert-icon">🐛</div>
+        <div class="alert-content">
+          <h4>Bollworm Alert — Cotton (Field 1)</h4>
+          <p>High risk of bollworm infestation detected. Temperature 30°C + humidity 65% creates favorable conditions. Inspect plants every 2 days. Apply neem-based insecticide within 48 hours if egg clusters found.</p>
+        </div>
+      </div>
+      <div class="alert-box red">
+        <div class="alert-icon">💧</div>
+        <div class="alert-content red">
+          <h4>Low Soil Moisture — Soybean (Field 2)</h4>
+          <p>Soil moisture below 35%. Pod filling stage requires 40–60% moisture. Irrigate within 24 hours — skip irrigation during rain forecast on Tuesday and Wednesday.</p>
+        </div>
+      </div>
+    </div>
 
-<div class="crop">
-Soybean
-<div class="progress">
-<span style="width:85%"></span>
-</div>
-</div>
+    <div class="section">
+      <div class="section-title"><span>📅</span> Crop Calendar</div>
+      <table>
+        <tr><th>Crop</th><th>Planted</th><th>Stage</th><th>Harvest Est.</th><th>Days Left</th></tr>
+        <tr><td>🌿 Cotton (BT)</td><td>15 Jun</td><td>Boll Formation</td><td>20 Oct</td><td><span class="badge ok">118 days</span></td></tr>
+        <tr><td>🫘 Soybean</td><td>20 Jun</td><td>Pod Filling</td><td>25 Sep</td><td><span class="badge ok">93 days</span></td></tr>
+        <tr><td>🧅 Onion</td><td>1 Jul</td><td>Bulb Development</td><td>15 Nov</td><td><span class="badge good">144 days</span></td></tr>
+      </table>
+    </div>
+  </div>
 
-<div class="crop">
-Onion
-<div class="progress">
-<span style="width:68%"></span>
-</div>
-</div>
+  <!-- WEATHER PAGE -->
+  <div class="page" id="page-weather">
+    <div class="header"><h2>🌤 Weather & Advisory</h2></div>
+    <div class="section">
+      <div class="section-title"><span>📍</span> Amravati, Vidarbha</div>
+      <div class="weather-current">
+        <div class="weather-temp" id="w-temp">—°C</div>
+        <div class="weather-details">
+          <div class="weather-city">Amravati, Maharashtra</div>
+          <div class="weather-desc" id="w-desc">Loading weather data...</div>
+          <div class="weather-extra">
+            <div>💧 Humidity: <b id="w-hum">—</b></div>
+            <div>🌬️ Wind: <b id="w-wind">—</b></div>
+            <div>🌧️ Rain: <b id="w-rain">—</b></div>
+            <div>☁️ Cloud: <b id="w-cloud">—</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="weather-grid" id="weatherGrid">
+        <div class="weather-day"><div class="day-name">Loading</div><div class="day-icon">⏳</div><div class="day-temp">—</div></div>
+      </div>
+      <div class="weather-advice" id="weatherAdvice">
+        <h4>🌾 Farming Advisory</h4>
+        <p id="weatherAdviceText">Loading weather data to generate advisory...</p>
+      </div>
+    </div>
+  </div>
 
-</div>
+  <!-- ANALYTICS PAGE -->
+  <div class="page" id="page-analytics">
+    <div class="header"><h2>📊 Farm Analytics</h2></div>
 
-<div class="section">
-<h2>🌤 Weather Advisory</h2>
+    <div class="cards">
+      <div class="card"><div class="card-icon">💰</div><h3>Total Revenue</h3><h2>₹3,69,700</h2><div class="sub">Estimated this season</div></div>
+      <div class="card"><div class="card-icon">📈</div><h3>Best Crop</h3><h2>Cotton</h2><div class="sub">₹1,96,000 est.</div></div>
+      <div class="card"><div class="card-icon">🌾</div><h3>Total Area</h3><h2>8.5 Acres</h2><div class="sub">3 crops active</div></div>
+      <div class="card"><div class="card-icon">📉</div><h3>Input Cost</h3><h2>₹1,12,000</h2><div class="sub">Seeds + Fert + Labour</div></div>
+    </div>
 
-<div class="weather-grid">
+    <div class="analytics-grid">
+      <div class="section" style="margin-bottom:0">
+        <div class="section-title"><span>📊</span> Revenue by Crop</div>
+        <div class="chart-bar-wrap">
+          <div class="chart-bar-row">
+            <div class="chart-bar-label">Cotton</div>
+            <div class="chart-bar-bg"><div class="chart-bar-fill" style="width:100%"></div></div>
+            <div class="chart-bar-val">₹1,96,000</div>
+          </div>
+          <div class="chart-bar-row">
+            <div class="chart-bar-label">Soybean</div>
+            <div class="chart-bar-bg"><div class="chart-bar-fill" style="width:54%"></div></div>
+            <div class="chart-bar-val">₹1,06,200</div>
+          </div>
+          <div class="chart-bar-row">
+            <div class="chart-bar-label">Onion</div>
+            <div class="chart-bar-bg"><div class="chart-bar-fill" style="width:34%"></div></div>
+            <div class="chart-bar-val">₹67,500</div>
+          </div>
+        </div>
+      </div>
+      <div class="section" style="margin-bottom:0">
+        <div class="section-title"><span>💪</span> Crop Health Score</div>
+        <div class="chart-bar-wrap">
+          <div class="chart-bar-row">
+            <div class="chart-bar-label">Soybean</div>
+            <div class="chart-bar-bg"><div class="chart-bar-fill" style="width:85%"></div></div>
+            <div class="chart-bar-val">85%</div>
+          </div>
+          <div class="chart-bar-row">
+            <div class="chart-bar-label">Cotton</div>
+            <div class="chart-bar-bg"><div class="chart-bar-fill" style="width:72%;background:#ef9f27"></div></div>
+            <div class="chart-bar-val">72%</div>
+          </div>
+          <div class="chart-bar-row">
+            <div class="chart-bar-label">Onion</div>
+            <div class="chart-bar-bg"><div class="chart-bar-fill" style="width:68%;background:#ef9f27"></div></div>
+            <div class="chart-bar-val">68%</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<div class="weather">Today<br>⛅<br>30°C</div>
-<div class="weather">Tue<br>🌧<br>29°C</div>
-<div class="weather">Wed<br>🌧<br>27°C</div>
-<div class="weather">Thu<br>⛅<br>28°C</div>
-<div class="weather">Fri<br>☀️<br>31°C</div>
-<div class="weather">Sat<br>☀️<br>32°C</div>
-<div class="weather">Sun<br>⛅<br>30°C</div>
-
-</div>
-
-</div>
-
-<div class="section">
-
-<h2>🤖 Khet Mitra</h2>
-
-<div class="chat-box">
-<div class="bot">
-Hello Farmer 👋<br>
-Ask anything about crops,
-fertilizers, pests or weather.
-</div>
-</div>
-
-<div class="chat-input">
-<input type="text" placeholder="Ask your farming question...">
-<button>Send</button>
-</div>
-
-</div>
-
-<div class="section">
-
-<h2>📊 Farm Analytics</h2>
-
-<table>
-
-<tr>
-<th>Crop</th>
-<th>Revenue</th>
-<th>Health</th>
-</tr>
-
-<tr>
-<td>Cotton</td>
-<td>₹1,96,000</td>
-<td>72%</td>
-</tr>
-
-<tr>
-<td>Soybean</td>
-<td>₹1,06,200</td>
-<td>85%</td>
-</tr>
-
-<tr>
-<td>Onion</td>
-<td>₹67,500</td>
-<td>68%</td>
-</tr>
-
-</table>
-
-</div>
+    <div class="section" style="margin-top:20px">
+      <div class="section-title"><span>📋</span> Detailed Crop Analytics</div>
+      <table>
+        <tr>
+          <th>Crop</th><th>Area</th><th>Est. Yield</th><th>Revenue</th><th>Input Cost</th><th>Net Profit</th><th>Health</th>
+        </tr>
+        <tr>
+          <td>🌿 Cotton (BT)</td><td>3.2 ac</td><td>12.8 qtl</td><td>₹1,96,000</td><td>₹48,000</td>
+          <td style="color:#22c55e;font-weight:600">₹1,48,000</td><td><span class="badge ok">72%</span></td>
+        </tr>
+        <tr>
+          <td>🫘 Soybean</td><td>3.0 ac</td><td>29.4 qtl</td><td>₹1,06,200</td><td>₹36,000</td>
+          <td style="color:#22c55e;font-weight:600">₹70,200</td><td><span class="badge good">85%</span></td>
+        </tr>
+        <tr>
+          <td>🧅 Onion</td><td>2.3 ac</td><td>115 qtl</td><td>₹67,500</td><td>₹28,000</td>
+          <td style="color:#22c55e;font-weight:600">₹39,500</td><td><span class="badge ok">68%</span></td>
+        </tr>
+        <tr class="total-row">
+          <td><b>TOTAL</b></td><td>8.5 ac</td><td>—</td><td>₹3,69,700</td><td>₹1,12,000</td>
+          <td>₹2,57,700</td><td>—</td>
+        </tr>
+      </table>
+    </div>
+  </div>
 
 </div>
 
 <script>
-
-function updateClock(){
-document.getElementById('clock').innerHTML=
-new Date().toLocaleTimeString();
+// ─── PAGE NAVIGATION ──────────────────────────────────────
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+  if (id === 'weather') loadWeather();
 }
 
-setInterval(updateClock,1000);
-updateClock();
+// ─── CLOCK ────────────────────────────────────────────────
+function tick() {
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+}
+setInterval(tick, 1000); tick();
 
+// ─── TASKS ───────────────────────────────────────────────
+function toggleTask(el) {
+  el.classList.toggle('done');
+  const txt = el.nextElementSibling;
+  txt.classList.toggle('done');
+}
+
+// ─── LANGUAGE ────────────────────────────────────────────
+let chatLang = 'en';
+function setLang(l) {
+  chatLang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn' + l.toUpperCase()).classList.add('active');
+  const input = document.getElementById('chatInput');
+  const placeholders = {
+    en: 'Ask your farming question in English, Hindi, or Marathi...',
+    hi: 'अपना खेती सवाल हिंदी, मराठी या अंग्रेजी में पूछें...',
+    mr: 'तुमचा शेती प्रश्न मराठी, हिंदी किंवा इंग्रजीत विचारा...'
+  };
+  input.placeholder = placeholders[l];
+}
+
+// ─── CHAT ─────────────────────────────────────────────────
+const chatHistory = [];
+
+function appendMsg(role, text) {
+  const box = document.getElementById('chatBox');
+  const typing = document.getElementById('typingIndicator');
+  const div = document.createElement('div');
+  div.className = 'msg ' + (role === 'user' ? 'user' : 'bot');
+  const timeStr = new Date().toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit'});
+  div.innerHTML = role === 'user'
+    ? `<div><div class="msg-bubble">${text}</div><div class="msg-time">${timeStr}</div></div><div class="msg-avatar">👨‍🌾</div>`
+    : `<div class="msg-avatar">🤖</div><div><div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div><div class="msg-time">KhetAI · ${timeStr}</div></div>`;
+  box.insertBefore(div, typing);
+  box.scrollTop = box.scrollHeight;
+}
+
+function setTyping(show) {
+  document.getElementById('typingIndicator').style.display = show ? 'block' : 'none';
+  const box = document.getElementById('chatBox');
+  box.scrollTop = box.scrollHeight;
+}
+
+async function sendMsg() {
+  const input = document.getElementById('chatInput');
+  const btn = document.getElementById('sendBtn');
+  const txt = input.value.trim();
+  if (!txt) return;
+  input.value = '';
+  btn.disabled = true;
+
+  appendMsg('user', txt);
+  chatHistory.push({role:'user', content: txt});
+  setTyping(true);
+
+  const langInstruction = {
+    en: 'Respond in English.',
+    hi: 'हिंदी में जवाब दें।',
+    mr: 'मराठीत उत्तर द्या.'
+  }[chatLang];
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: `You are Khet Mitra, an expert AI agricultural advisor for farmers in Vidarbha, Maharashtra, India. 
+You specialize in: cotton (BT cotton), soybean, onion, wheat, jowar, tur dal — crops common to Vidarbha.
+You give practical, actionable advice about: crop diseases, fertilizers (DAP, urea, potash), pesticides, irrigation, soil health, weather-based farming decisions, government schemes (PM-Kisan, crop insurance), and mandi/market prices.
+The farmer's details: 8.5 acres in Amravati district, black cotton soil, currently growing Cotton BT (3.2 ac), Soybean (3.0 ac), Onion (2.3 ac).
+${langInstruction}
+Keep responses concise, practical, and farmer-friendly. Use bullet points for steps. Mention specific product names and dosages when relevant.`,
+        messages: chatHistory.slice(-10)
+      })
+    });
+    const data = await res.json();
+    const reply = data.content?.map(c => c.text || '').join('\n') || 'Sorry, I could not get a response. Please try again.';
+    setTyping(false);
+    appendMsg('bot', reply);
+    chatHistory.push({role:'assistant', content: reply});
+  } catch(e) {
+    setTyping(false);
+    appendMsg('bot', 'Network error. Please check your connection and try again.');
+  }
+  btn.disabled = false;
+}
+
+function sendQuick(q) {
+  showPage('mitra', document.querySelector('[onclick*=mitra]'));
+  document.getElementById('chatInput').value = q;
+  sendMsg();
+}
+
+function askMitra(q) { sendQuick(q); }
+
+// ─── WEATHER ──────────────────────────────────────────────
+const weatherDays = [
+  {name:'Today', icon:'⛅', high:30, low:23, rain:'40%', desc:'Partly cloudy'},
+  {name:'Tue',   icon:'🌧', high:28, low:22, rain:'75%', desc:'Heavy rain'},
+  {name:'Wed',   icon:'🌧', high:27, low:21, rain:'70%', desc:'Moderate rain'},
+  {name:'Thu',   icon:'⛅', high:28, low:22, rain:'20%', desc:'Partly cloudy'},
+  {name:'Fri',   icon:'☀️', high:31, low:24, rain:'5%',  desc:'Sunny'},
+  {name:'Sat',   icon:'☀️', high:32, low:25, rain:'5%',  desc:'Sunny'},
+  {name:'Sun',   icon:'⛅', high:30, low:23, rain:'15%', desc:'Partly cloudy'},
+];
+
+function loadWeather() {
+  // Update main dashboard
+  document.getElementById('dash-temp').textContent = '30°C';
+  document.getElementById('dash-weather').textContent = 'Partly cloudy · Rain Tue-Wed';
+
+  // Update weather page
+  document.getElementById('w-temp').textContent = '30°C';
+  document.getElementById('w-desc').textContent = 'Partly Cloudy · Monsoon Season';
+  document.getElementById('w-hum').textContent = '68%';
+  document.getElementById('w-wind').textContent = '12 km/h W';
+  document.getElementById('w-rain').textContent = '40% chance today';
+  document.getElementById('w-cloud').textContent = '55%';
+
+  const grid = document.getElementById('weatherGrid');
+  grid.innerHTML = weatherDays.map(d => `
+    <div class="weather-day">
+      <div class="day-name">${d.name}</div>
+      <div class="day-icon">${d.icon}</div>
+      <div class="day-temp">${d.high}°C</div>
+      <div class="day-rain">🌧 ${d.rain}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('weatherAdviceText').textContent =
+    '⚠️ Heavy rain forecast Tuesday–Wednesday (75–70%). Avoid pesticide/fertilizer spraying on these days. '+
+    'Complete neem oil spray on cotton TODAY (Monday). Post-rain, check for fungal disease on soybean leaves. '+
+    'Friday–Saturday: Sunny weather — ideal for tractor/fieldwork and soil aeration. '+
+    'Overall: Good monsoon conditions for Kharif crops. Maintain proper drainage to avoid waterlogging.';
+}
+
+// ─── CROP DOCTOR ─────────────────────────────────────────
+const diseases = {
+  'cotton-bollworm': {
+    name: 'Cotton Bollworm (Helicoverpa)',
+    severity: 'high',
+    symptoms: 'Round holes in young bolls, withered/fallen squares, larvae inside bolls, frass (excreta) visible outside holes.',
+    treatment: ['Spray Emamectin Benzoate 5% SG @ 0.2g/L water', 'Or use Chlorantraniliprole 18.5% SC @ 0.3ml/L', 'Set up pheromone traps (5 per acre) for monitoring', 'Apply neem oil 3% spray as preventive measure'],
+    prevention: 'Avoid excessive nitrogen fertilizer. Intercrop with pigeon pea. Monitor weekly after 45 days of planting.'
+  },
+  'soybean-rust': {
+    name: 'Soybean Rust (Phakopsora pachyrhizi)',
+    severity: 'medium',
+    symptoms: 'Small yellow to brown lesions on leaf underside, reddish-brown pustules on leaves, premature leaf drop.',
+    treatment: ['Spray Tebuconazole 25.9% EC @ 1ml/L water', 'Or Azoxystrobin + Tebuconazole @ 1ml/L', 'Apply 2 sprays 15 days apart', 'Spray during morning or evening hours only'],
+    prevention: 'Use resistant varieties. Maintain plant spacing. Avoid overhead irrigation. Remove and burn infected plant debris.'
+  },
+  'onion-purple-blotch': {
+    name: 'Onion Purple Blotch (Alternaria porri)',
+    severity: 'medium',
+    symptoms: 'Purple to brown oval lesions on leaves, white center with purple margin, lesions enlarge and girdle leaves, leaves die from tip.',
+    treatment: ['Spray Mancozeb 75% WP @ 2.5g/L water', 'Or Iprodione 50% WP @ 2g/L', 'Repeat every 10 days', 'Add a sticker/spreader to improve adhesion'],
+    prevention: 'Crop rotation every 3 years. Avoid excessive moisture. Ensure proper spacing (10cm × 10cm). Destroy infected crop debris.'
+  }
+};
+
+function showDisease(id) {
+  const d = diseases[id];
+  const el = document.getElementById('diseaseInfo');
+  el.style.display = 'block';
+  const sc = {'high':'high','medium':'medium','low':'low'};
+  const slabel = {'high':'🔴 High Severity','medium':'🟡 Medium Severity','low':'🟢 Low Severity'};
+  el.innerHTML = `
+    <div class="diag-title">${d.name}</div>
+    <div class="severity ${sc[d.severity]}">${slabel[d.severity]}</div>
+    <div class="diag-section"><h4>Symptoms</h4><p>${d.symptoms}</p></div>
+    <div class="diag-section"><h4>Treatment</h4><ul>${d.treatment.map(t=>`<li>${t}</li>`).join('')}</ul></div>
+    <div class="diag-section"><h4>Prevention</h4><p>${d.prevention}</p></div>
+    <button class="btn-sm primary" onclick="askMitra('Tell me more about treating ${d.name} on my farm in Vidarbha')">Ask Khet Mitra for more advice 🤖</button>
+  `;
+  el.scrollIntoView({behavior:'smooth'});
+}
+
+async function diagnoseCrop(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const preview = document.getElementById('previewImg');
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    preview.src = e.target.result;
+    preview.classList.add('visible');
+    document.getElementById('diagLoading').classList.add('visible');
+    document.getElementById('diagResult').classList.remove('visible');
+
+    const b64 = e.target.result.split(',')[1];
+    const mtype = file.type;
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 1000,
+          system: 'You are an expert plant pathologist and agricultural advisor specializing in Vidarbha, Maharashtra crops: cotton, soybean, onion, wheat. Analyze crop photos and diagnose diseases. Always respond in this exact JSON format: {"disease":"disease name or Healthy","severity":"High|Medium|Low|None","confidence":"percentage","symptoms":"what you see","treatment":["step1","step2","step3"],"prevention":"prevention advice","urgency":"immediate action needed"}',
+          messages: [{role:'user', content:[
+            {type:'image', source:{type:'base64', media_type: mtype, data: b64}},
+            {type:'text', text:'Analyze this crop photo. Identify any disease, pest damage, or nutrient deficiency. Provide diagnosis and treatment advice for a Vidarbha, Maharashtra farmer. Respond only in the JSON format specified.'}
+          ]}]
+        })
+      });
+      const data = await res.json();
+      const raw = data.content?.map(c=>c.text||'').join('');
+      let diag;
+      try {
+        const clean = raw.replace(/```json|```/g,'').trim();
+        diag = JSON.parse(clean);
+      } catch(e2) {
+        diag = {disease:'Analysis complete', severity:'Medium', confidence:'—', symptoms: raw, treatment:['Consult your local Krishi Kendra'], prevention:'', urgency:''};
+      }
+      document.getElementById('diagLoading').classList.remove('visible');
+      const el = document.getElementById('diagResult');
+      const sc = {'High':'high','Medium':'medium','Low':'low','None':'low'};
+      const si = {'High':'🔴','Medium':'🟡','Low':'🟢','None':'🟢'};
+      el.innerHTML = `
+        <div class="diag-title">${diag.disease}</div>
+        <div class="severity ${sc[diag.severity]||'medium'}">${si[diag.severity]||'🟡'} ${diag.severity} Severity · ${diag.confidence} Confidence</div>
+        ${diag.symptoms ? `<div class="diag-section"><h4>What AI Sees</h4><p>${diag.symptoms}</p></div>` : ''}
+        ${diag.treatment?.length ? `<div class="diag-section"><h4>Recommended Treatment</h4><ul>${diag.treatment.map(t=>`<li>${t}</li>`).join('')}</ul></div>` : ''}
+        ${diag.prevention ? `<div class="diag-section"><h4>Prevention</h4><p>${diag.prevention}</p></div>` : ''}
+        ${diag.urgency ? `<div class="diag-section"><h4>⚡ Urgency</h4><p>${diag.urgency}</p></div>` : ''}
+        <button class="btn-sm primary" onclick="askMitra('Crop Doctor diagnosed ${diag.disease} on my crop. What should I do next?')" style="margin-top:8px">Get More Advice from Khet Mitra 🤖</button>
+      `;
+      el.classList.add('visible');
+    } catch(e) {
+      document.getElementById('diagLoading').classList.remove('visible');
+      const el = document.getElementById('diagResult');
+      el.innerHTML = '<p style="color:#e24b4a">Error analyzing image. Please check your connection and try again.</p>';
+      el.classList.add('visible');
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+// Init weather on load
+loadWeather();
 </script>
-
 </body>
 </html>
