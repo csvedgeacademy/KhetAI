@@ -1,23 +1,389 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0a1a0c" />
-    <meta name="description" content="KhetAI — AI-powered precision agriculture for Maharashtra farmers. Crop disease detection, weather advisory, soil health tracking." />
-    <meta name="keywords" content="KhetAI, farm app, Maharashtra, Vidarbha, cotton, soybean, crop disease, khet mitra, AI farming" />
-    <meta property="og:title" content="KhetAI — Precision Agriculture" />
-    <meta property="og:description" content="AI-powered farm advisor for Maharashtra farmers" />
-    <meta property="og:type" content="website" />
-    <title>KhetAI — Precision Agriculture</title>
-    <style>
-      body { margin: 0; background: #0a1a0c; }
-      #root { min-height: 100vh; }
-    </style>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run KhetAI.</noscript>
-    <div id="root"></div>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KhetAI - Precision Agriculture</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#08130c;
+color:white;
+}
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:240px;
+height:100vh;
+background:#0d1d12;
+border-right:1px solid #1f3b2c;
+padding:20px;
+}
+
+.logo{
+font-size:32px;
+font-weight:700;
+color:#22c55e;
+}
+
+.tag{
+font-size:12px;
+color:#8fb39a;
+margin-bottom:30px;
+}
+
+.nav-item{
+padding:12px;
+margin-bottom:8px;
+border-radius:10px;
+cursor:pointer;
+transition:.3s;
+}
+
+.nav-item:hover{
+background:#173521;
+}
+
+.main{
+margin-left:240px;
+padding:30px;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.hero{
+background:linear-gradient(135deg,#0f3f23,#14532d);
+padding:40px;
+border-radius:20px;
+margin-bottom:25px;
+}
+
+.hero h1{
+font-size:40px;
+margin-bottom:10px;
+}
+
+.hero p{
+color:#d8eadb;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:30px;
+}
+
+.card{
+background:#0f1c12;
+padding:25px;
+border-radius:18px;
+border:1px solid #1d3524;
+}
+
+.card h3{
+font-size:14px;
+color:#9ab69f;
+margin-bottom:10px;
+}
+
+.card h2{
+color:#22c55e;
+}
+
+.section{
+background:#0f1c12;
+padding:25px;
+border-radius:18px;
+border:1px solid #1d3524;
+margin-bottom:25px;
+}
+
+.crop{
+padding:15px;
+border-bottom:1px solid #1f3525;
+}
+
+.progress{
+height:8px;
+background:#1b2c20;
+border-radius:10px;
+margin-top:10px;
+overflow:hidden;
+}
+
+.progress span{
+display:block;
+height:100%;
+background:#22c55e;
+}
+
+.weather-grid{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:10px;
+margin-top:20px;
+}
+
+.weather{
+background:#132318;
+padding:15px;
+text-align:center;
+border-radius:12px;
+}
+
+.chat-box{
+height:300px;
+overflow-y:auto;
+padding:15px;
+background:#08130c;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+.bot{
+background:#173521;
+padding:10px;
+border-radius:10px;
+display:inline-block;
+}
+
+.chat-input{
+display:flex;
+gap:10px;
+}
+
+.chat-input input{
+flex:1;
+padding:12px;
+border:none;
+border-radius:10px;
+}
+
+.chat-input button{
+padding:12px 20px;
+border:none;
+background:#22c55e;
+border-radius:10px;
+cursor:pointer;
+font-weight:600;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+table th,
+table td{
+padding:12px;
+border-bottom:1px solid #1f3525;
+text-align:left;
+}
+
+@media(max-width:900px){
+
+.sidebar{
+position:relative;
+width:100%;
+height:auto;
+}
+
+.main{
+margin-left:0;
+}
+
+.weather-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+
+<div class="logo">🌾 KhetAI</div>
+<div class="tag">Precision Agriculture</div>
+
+<div class="nav-item">🏡 Dashboard</div>
+<div class="nav-item">🔬 Crop Doctor</div>
+<div class="nav-item">🤖 Khet Mitra</div>
+<div class="nav-item">🌾 My Farm</div>
+<div class="nav-item">🌤 Weather</div>
+<div class="nav-item">📊 Analytics</div>
+
+</div>
+
+<div class="main">
+
+<div class="header">
+<h2>KhetAI Dashboard</h2>
+<div id="clock"></div>
+</div>
+
+<div class="hero">
+<h1>Smart Farming for Maharashtra</h1>
+<p>
+AI-powered crop advisory, disease detection,
+weather forecasting and farm analytics.
+</p>
+</div>
+
+<div class="cards">
+
+<div class="card">
+<h3>Farm Area</h3>
+<h2>8.5 Acres</h2>
+</div>
+
+<div class="card">
+<h3>Crop Health</h3>
+<h2>76%</h2>
+</div>
+
+<div class="card">
+<h3>Alerts</h3>
+<h2>2 Active</h2>
+</div>
+
+<div class="card">
+<h3>Weather</h3>
+<h2>28°C</h2>
+</div>
+
+</div>
+
+<div class="section">
+<h2>🌾 Active Crops</h2>
+
+<div class="crop">
+Cotton (BT)
+<div class="progress">
+<span style="width:72%"></span>
+</div>
+</div>
+
+<div class="crop">
+Soybean
+<div class="progress">
+<span style="width:85%"></span>
+</div>
+</div>
+
+<div class="crop">
+Onion
+<div class="progress">
+<span style="width:68%"></span>
+</div>
+</div>
+
+</div>
+
+<div class="section">
+<h2>🌤 Weather Advisory</h2>
+
+<div class="weather-grid">
+
+<div class="weather">Today<br>⛅<br>30°C</div>
+<div class="weather">Tue<br>🌧<br>29°C</div>
+<div class="weather">Wed<br>🌧<br>27°C</div>
+<div class="weather">Thu<br>⛅<br>28°C</div>
+<div class="weather">Fri<br>☀️<br>31°C</div>
+<div class="weather">Sat<br>☀️<br>32°C</div>
+<div class="weather">Sun<br>⛅<br>30°C</div>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>🤖 Khet Mitra</h2>
+
+<div class="chat-box">
+<div class="bot">
+Hello Farmer 👋<br>
+Ask anything about crops,
+fertilizers, pests or weather.
+</div>
+</div>
+
+<div class="chat-input">
+<input type="text" placeholder="Ask your farming question...">
+<button>Send</button>
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>📊 Farm Analytics</h2>
+
+<table>
+
+<tr>
+<th>Crop</th>
+<th>Revenue</th>
+<th>Health</th>
+</tr>
+
+<tr>
+<td>Cotton</td>
+<td>₹1,96,000</td>
+<td>72%</td>
+</tr>
+
+<tr>
+<td>Soybean</td>
+<td>₹1,06,200</td>
+<td>85%</td>
+</tr>
+
+<tr>
+<td>Onion</td>
+<td>₹67,500</td>
+<td>68%</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+function updateClock(){
+document.getElementById('clock').innerHTML=
+new Date().toLocaleTimeString();
+}
+
+setInterval(updateClock,1000);
+updateClock();
+
+</script>
+
+</body>
 </html>
